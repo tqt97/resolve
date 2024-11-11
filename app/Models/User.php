@@ -45,4 +45,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function positions()
+    {
+        return $this->belongsToMany(Position::class, 'position_user');
+    }
+
+    public function departments()
+    {
+        return $this->positions()
+            ->with('department')
+            ->get()
+            ->pluck('department')
+            ->unique('id');
+    }
 }
